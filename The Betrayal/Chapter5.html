@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Absent Father | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        /* Same CSS as Storynightfall.html */
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Story Content */
+        .story-content {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--accent-2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(209, 107, 165, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-space::before {
+            content: "ADVERTISEMENT";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--accent-2);
+            opacity: 0.6;
+        }
+
+        .ad-content {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 6px;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ChooseStory/LyricVideoView.html">Video Book</a></li>
+                    <li><a href="../ChooseStory/library.html">Library</a></li>
+
+                </ul>
+            </nav>
+        </header>
+                <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <h1 class="page-title">Chapter 5: Absent Father</h1>
+            <p class="page-description">The Betrayal</p>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Premium Dark Romance - Ad Space
+                </div>
+            </div>
+            
+            <div class="story-content">
+
+<p>Time did not heal the wounds between Brian and his children—it only made the gap wider.</p>
+
+<p>After the divorce, Cain and Isabella had expected some effort from their father. At the very least, a phone call every week, a visit on weekends, or an attempt to show interest in their lives. But Brian’s promises grew fewer, and even those he made often went unfulfilled.</p>
+
+<p>At first, Cain waited by the window on Saturday mornings, hoping to see his father’s car pull up. He would tell Isabella, “Maybe today he’ll come.” But the hours passed, and Brian never arrived. After months of disappointment, Cain stopped waiting. His hope hardened into anger, and his anger turned into silence.</p>
+
+<p>Isabella, still young and tender-hearted, tried to excuse him. “Maybe Dad’s busy,” she said one evening as they cleared the dinner table.</p>
+
+<p>Rose sighed, brushing Isabella’s cheek. “Busy shouldn’t mean forgetting the people who love you.”</p>
+
+<p>Isabella looked down, her small hands tightening around a dishcloth. She never spoke about it again, but the hurt lingered in her eyes.</p>
+
+<p>Brian’s absence was not only emotional—it was financial. He still sent money, but it arrived late more often than not. Rose stretched every rand to cover school fees, groceries, and rent, while Brian and Tiffany dined in luxury restaurants and spent weekends at resorts.</p>
+
+<p>One night, Cain overheard a phone call between his mother and Brian. The frustration in Rose’s voice cracked through her usually calm tone.</p>
+
+<p>“Brian, they need books. Cain is in his final year, and Isabella’s project requires materials. You promised to send the money last week.”</p>
+
+<p>There was a pause on the other end, followed by Brian’s defensive reply. “I’m under pressure, Rose. Tiffany has her own needs, and things at work aren’t smooth. I’ll send it when I can.”</p>
+
+<p>“When you can?” Rose’s voice trembled, not with weakness but with fury. “They are your children. You don’t get to put them second to your lifestyle. They didn’t ask for this.”</p>
+
+<p>Cain clenched his fists, his teeth grinding as he listened. His mother hung up moments later, shoulders sagging. Cain wanted to storm out, to call his father himself and shout every word burning inside him. But instead, he walked over and placed a hand on Rose’s back.</p>
+
+<p>“We’ll manage, Mom,” he said softly. “We’ve been managing without him all along.”</p>
+
+<p>Rose turned, tears in her eyes, and hugged him tightly.</p>
+
+<p>Tiffany’s role in Brian’s neglect was subtle but poisonous. She encouraged him to distance himself from Rose and the children, framing it as a way to “move forward.”</p>
+
+<p>“Why put yourself through stress?” Tiffany said one evening as she twirled a glass of wine. “Rose will always demand more. And those kids… they’ll grow up and blame you no matter what. Isn’t it better to focus on us?”</p>
+
+<p>Brian frowned but said nothing. Deep down, guilt gnawed at him, but Tiffany’s voice was persuasive. She made him feel like a king—something he had not felt at home for years. With her, he could forget the pain of his choices, at least for a while.</p>
+
+<p>Yet, when he lay awake at night, he thought of Cain’s cold silence and Isabella’s hopeful eyes. He wondered if they hated him. He wondered if they still considered him their father at all.</p>
+
+<p>Cain’s resentment only deepened with time. On his eighteenth birthday, he decided not to invite Brian.</p>
+
+<p>Isabella asked gently, “Are you sure? Maybe he’ll come if we tell him.”</p>
+
+<p>Cain shook his head firmly. “If he cared, he’d already be here. I don’t need him showing up for one day when he’s missed all the others.”</p>
+
+<p>That night, they celebrated with a homemade cake that Rose baked from scratch. It was small and simple, but the laughter that filled the house was genuine. Cain blew out the candles with a silent wish—not for his father’s return, but for the strength to become the kind of man his father could never be.</p>
+
+<p>At school, Cain channeled his anger into determination. He studied late into the night, often fueled by nothing but instant noodles and his mother’s encouragement. His dream of becoming a lawyer grew sharper with every disappointment Brian handed him.</p>
+
+<p>“I’ll fight for people who feel powerless,” he told Isabella one evening as they washed dishes together. “I’ll be the voice that others don’t have. And maybe… maybe I’ll protect families from men like him.”</p>
+
+<p>Isabella nodded, her eyes shining with admiration. She looked up to her brother, not only as a sibling but as a role model.</p>
+
+<p>Rose, though hurt by Brian’s absence, refused to let bitterness consume her. She reminded Cain and Isabella that they were loved, even if their father had failed to show it.</p>
+
+<p>“Your worth is not measured by his neglect,” she told them. “It’s measured by the way you rise above it.”</p>
+
+<p>She poured herself into her designs, slowly building a small but loyal customer base. Each garment she made carried not only fabric and thread but also pieces of her resilience. In every stitch, she sewed strength, hope, and the promise of a better future.</p>
+
+<p>Meanwhile, cracks began to show in Brian and Tiffany’s perfect facade. Tiffany’s demands grew heavier. She wanted more trips, more gifts, more of everything. Brian struggled to keep up, especially as rumors at work spread about his favoritism toward her.</p>
+
+<p>One evening, Tiffany tossed aside a dress he had bought her. “This isn’t the one I wanted. Don’t you listen?”</p>
+
+<p>Brian sighed, rubbing his temples. “I’m doing my best, Tiffany. My salary only stretches so far.”</p>
+
+<p>She crossed her arms. “Maybe you should try harder. I didn’t leave my old life just to live like this.”</p>
+
+<p>For the first time, Brian saw not love in her eyes but greed. It unsettled him, but he was already too entangled to walk away.</p>
+
+<p>Back at home, Cain and Isabella learned to live without their father. The absence hurt, yes, but it also pushed them closer to Rose. They became not just children, but partners in survival. Cain took part-time jobs during weekends, while Isabella began tutoring younger students in computer basics for a small fee.</p>
+
+<p>Together, they helped ease the financial strain on Rose. More importantly, they created a bond that Brian could never break, no matter how far he drifted.</p>
+
+<p>One Sunday evening, as they sat together around the dinner table, Isabella asked a question that silenced the room.</p>
+
+<p>“Mom,” she said softly, “do you think Dad will ever come back?”</p>
+
+<p>Rose looked at her daughter for a long moment, choosing her words carefully. “He might come back physically, Isabella. But the man you once called Dad—the one who tucked you in at night and cheered at your school concerts—I don’t think he exists anymore.”</p>
+
+<p>Isabella swallowed hard, blinking back tears. Cain reached for her hand.</p>
+
+<p>“Then we’ll be enough for each other,” he said firmly. “We don’t need him to define us.”</p>
+
+<p>Rose smiled through her own tears. In that moment, she realized that although Brian had abandoned them, he had not broken them. If anything, his absence had forged something stronger—an unshakable bond between mother and children.</p>
+
+<p>Brian, sitting in a quiet bar miles away, nursed a glass of whiskey. His phone buzzed with a reminder of Cain’s birthday, but he didn’t call. The guilt was too heavy, and he convinced himself they wouldn’t want to hear from him anyway.</p>
+
+<p>For the first time in his life, Brian felt the true weight of being an absent father. Surrounded by noise and strangers, he had never felt more alone.</p>
+
+<p>The Moore family, though scarred, was moving forward without him. Rose was building a dream, Cain was preparing to fight for justice, and Isabella was shaping her future in technology. Their lives were no longer defined by Brian’s presence, but by his absence—and by their decision to rise in spite of it.</p>
+
+<p>And somewhere in the quiet corners of his conscience, Brian knew that he was losing them, not just for now, but perhaps forever.</p>
+
+ 
+
+            </div>
+            
+            <div class="chapter-nav">
+                <a href="Chapter4.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous Chapter
+                </a>
+                <a href="Chapter6.html" class="btn btn-primary">
+                    Next Chapter <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Continue Reading - Ad Space
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for romance and haunting love stories and many more stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/kreeptonic"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://tiktok.com/@kreeptonicthepoetic"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@kreeptonic"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="../ChooseStory/LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent-1);"></i> for story lovers</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>

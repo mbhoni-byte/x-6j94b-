@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.8;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+        
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Authors Section */
+        .authors-header {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-subtitle {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .authors-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .author-card {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .author-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 42, 109, 0.3);
+        }
+        
+        .author-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--text-light);
+        }
+        
+        .author-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .author-title {
+            color: var(--accent-2);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .author-bio {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 800px;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .contact-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .contact-card {
+            background: rgba(30, 30, 45, 0.8);
+            border-radius: 10px;
+            padding: 25px;
+            width: 220px;
+            transition: var(--transition);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-1);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-1);
+        }
+        
+        .contact-type {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-3);
+        }
+        
+        .contact-detail {
+            color: var(--text-light);
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+        
+        .contact-detail:hover {
+            color: var(--accent-2);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .contact-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .author-card {
+                padding: 30px 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .author-name {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="library.html">Library</a></li>
+                    <li><a href="LyricVideoView.html">Video Book</a></li>
+                    <li><a href="authors.html" class="active">Authors</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- Authors Header -->
+        <div class="authors-header">
+            <h1 class="section-title">Meet Our Authors</h1>
+            <p class="section-subtitle">The creative minds behind the haunting tales of dark romance that captivate your soul</p>
+        </div>
+        
+        <!-- Authors Container -->
+        <div class="authors-container">
+            <!-- Author 1 -->
+            <div class="author-card">
+                <div class="author-avatar">
+                    <i class="fas fa-feather-alt"></i>
+                </div>
+                <h2 class="author-name">M.B Makondo</h2>
+                <div class="author-title">Master of Romance Stories</div>
+                <p class="author-bio">
+                    M.B Makondo weaves intricate tales of forbidden love and eternal darkness. With a background in gothic literature, Makondo crafts haunting narratives that explore the deepest corners of the human heart. His stories blend poetic prose with chilling suspense, creating unforgettable journeys through the shadows of passion.
+                </p>
+                <div class="story-meta" style="justify-content: center; color: var(--accent-3);">
+                    <span><i class="fas fa-book"></i> 12 Published Stories</span>
+                </div>
+            </div>
+            
+            <!-- Author 2 -->
+            <div class="author-card">
+                <div class="author-avatar">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h2 class="author-name">M.W Sithole</h2>
+                <div class="author-title">Poet of the Night</div>
+                <p class="author-bio">
+                    M.W Sithole brings a lyrical quality to dark romance, infusing each story with poetic beauty and emotional depth. Specializing in paranormal romance, Sithole creates complex characters who navigate the treacherous waters of immortal love. Her work is celebrated for its atmospheric settings and psychological complexity.
+                </p>
+                <div class="story-meta" style="justify-content: center; color: var(--accent-3);">
+                    <span><i class="fas fa-book"></i> 8 Published Stories</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h2 class="contact-title">Connect With Us</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 30px;">
+                Reach out to the Kreeptonic Story Time team through any of these channels. We'd love to hear from you!
+            </p>
+            
+            <div class="contact-info">
+                <!-- TikTok -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="contact-type">TikTok</div>
+                    <a href="https://tiktok.com/@kreeptonicthepoetic" target="_blank" class="contact-detail">
+                        @kreeptonicthepoetic
+                    </a>
+                </div>
+                
+                <!-- Facebook -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-facebook"></i>
+                    </div>
+                    <div class="contact-type">Facebook</div>
+                    <a href="https://facebook.com/kreeptonic" target="_blank" class="contact-detail">
+                        /kreeptonic
+                    </a>
+                </div>
+                
+                <!-- Email -->
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-type">Email</div>
+                    <a href="mailto:kreeptonical@gmail.com" class="contact-detail">
+                        kreeptonical@gmail.com
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for dark romance and haunting love stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://tiktok.com/@kreeptonicthepoetic" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://facebook.com/kreeptonic" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="mailto:kreeptonical@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="library.html"><i class="fas fa-book"></i> Library</a></li>
+                        <li><a href="LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://tiktok.com/@kreeptonicthepoetic" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                        <li><a href="https://facebook.com/kreeptonic" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="mailto:kreeptonical@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Created by M.B Makondo & M.W Sithole</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>

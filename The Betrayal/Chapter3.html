@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: The Broken Trust | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        /* Same CSS as Storynightfall.html */
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Story Content */
+        .story-content {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--accent-2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(209, 107, 165, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-space::before {
+            content: "ADVERTISEMENT";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--accent-2);
+            opacity: 0.6;
+        }
+
+        .ad-content {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 6px;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ChooseStory/LyricVideoView.html">Video Book</a></li>
+                    <li><a href="../ChooseStory/library.html">Library</a></li>
+
+                </ul>
+            </nav>
+        </header>
+                <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <h1 class="page-title">Chapter 3: The Broken Trust</h1>
+            <p class="page-description">The Betrayal</p>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Premium Dark Romance - Ad Space
+                </div>
+            </div>
+            
+            <div class="story-content">
+                
+                <p>The Moore family house no longer felt like a home. The warm laughter that once filled its walls had turned into whispers, arguments, and silence. For weeks after Cain confronted his father, tension sat heavy in every corner. Rose tried to hold herself together, but her heartbreak showed in the way she moved—slowly, carefully, as though her very soul had been bruised.</p>
+
+                <p>The children noticed everything. Isabella often stayed in her room, her schoolbooks untouched. She stared at the glow of her computer screen but could not concentrate. Cain, though angry, tried to be the strong one. He made sure Isabella ate her meals, encouraged his mother, and studied late into the night. But behind his strength was a storm of disappointment and betrayal.</p>
+
+                <p>It was Rose who finally decided something had to change. One evening, after pacing the living room for almost an hour, she picked up her phone and dialed Brian.</p>
+
+<p>“Brian,” she said firmly, her voice steadier than she felt, “we need to talk. As a family. Tomorrow night. Don’t be late.”</p>
+
+<p>There was a long pause on the other end before Brian answered, his voice low. “Alright. I’ll be there.”</p>
+
+<p>The next evening, the Moore family sat at the dining table. It was the same table where birthdays had been celebrated, where stories had been shared, and where plans for the future had once been made. But now, the atmosphere was different—cold, heavy, final.</p>
+
+<p>Brian arrived looking nervous. His shirt was wrinkled, his tie loose, his face weary. Tiffany was nowhere in sight, but her presence lingered in every unspoken word.</p>
+
+<p>Rose sat at the head of the table, her hands folded tightly together. Cain sat to her left, his jaw clenched, while Isabella sat quietly on the right, her eyes downcast.</p>
+
+<p>Brian cleared his throat. “Rose… kids… I—”</p>
+
+<p>But Rose raised her hand sharply, cutting him off. “No excuses, Brian. Not tonight. Tonight, we deal with the truth.”</p>
+
+<p>Her eyes were sharp, filled with both pain and resolve. “You betrayed us. You betrayed me. And you betrayed your children. There’s no way to hide it anymore.”</p>
+
+<p>Brian’s shoulders slumped. “I know I made a mistake. I—”</p>
+
+<p>Cain’s voice broke through, raw with anger. “A mistake? Dad, mistakes are forgetting to lock the door or burning dinner. What you did wasn’t a mistake. You chose her. You chose Tiffany over us.”</p>
+
+<p>Isabella, who had been silent, finally looked up. Her voice trembled as she asked, “Daddy… why? Wasn’t Mom enough? Weren’t we enough?”</p>
+
+<p>Brian’s heart ached at the question. He reached out as if to touch her hand, but she pulled it away. That small movement hurt more than any words.</p>
+
+<p>Rose leaned forward, her tone icy. “You destroyed the foundation of this family, Brian. Trust. Without trust, there is nothing left to build on.”</p>
+
+<p>Brian tried again. “Rose, I love you. I love the kids. Tiffany… she was a distraction. I can end it. I can—”</p>
+
+<p>Rose shook her head, tears streaming down her face now. “Love is not words, Brian. It’s actions. And your actions showed me where your heart truly is.”</p>
+
+<p>The silence that followed was unbearable. Finally, Rose spoke again, her voice breaking. “This marriage is over.”</p>
+
+<p>The weeks that followed were a blur of lawyers, paperwork, and painful conversations. Rose filed for divorce, and Brian did not fight it. Deep down, he knew he had no ground to stand on. He moved out permanently, taking his clothes and a few personal belongings, leaving behind the house that had once been their dream.</p>
+
+<p>For Rose, the divorce was both a wound and a relief. The wound came from losing the man she had once loved so deeply. The relief came from knowing she would no longer have to live with lies. She kept the house and full custody of the children, determined to create stability in the middle of chaos.</p>
+
+<p>Cain watched everything unfold with a bitter heart. He promised himself he would never be like his father. He studied harder than ever, using his anger as fuel to push him toward his dream of becoming a lawyer. Every case study he read, every argument he practiced in class, carried the shadow of his father’s betrayal.</p>
+
+<p>Isabella, though quieter, found her own way to cope. She threw herself into technology projects, learning coding, building small programs, and escaping into the logic of computers where trust could not be broken.</p>
+
+<p>Brian, on the other hand, moved in fully with Tiffany. At first, she welcomed him like a queen welcoming her king. Her apartment became his refuge, her laughter his escape. But soon, even he could not ignore the emptiness.</p>
+
+<p>One night, as he lay beside Tiffany, staring at the ceiling, memories of his family flooded his mind. Rose’s smile, Cain’s excitement when he scored high marks, Isabella’s laughter when she showed him her latest computer trick—these images pierced him like knives. Tiffany noticed his distant look and rolled her eyes.</p>
+
+<p>“Brian, you’re here now. Stop living in the past. Rose and the kids will move on. You should too.”</p>
+
+<p>But those words did not comfort him. Instead, they deepened his guilt. He had traded his family for a fleeting passion, and now, he was paying the price.</p>
+
+<p>Back at the Moore house, Rose began rebuilding her life. She continued selling clothes in the local market, determined to provide for her children. It wasn’t easy. There were days when she came home exhausted, her feet aching, her hands rough from carrying heavy bags. But every time she saw Cain studying late into the night or Isabella typing quickly on her laptop, she found new strength.</p>
+
+<p>One afternoon, while setting up her stall at the market, Rose met a woman named Lydia. Lydia was a jewelry and clothing designer who owned a small but successful boutique in the city. She admired Rose’s sense of style and determination.</p>
+
+<p>“You have an eye for this,” Lydia told her, picking up a dress Rose had altered herself. “Have you ever thought about designing your own clothes?”</p>
+
+<p>Rose laughed softly, shaking her head. “I’ve never had the chance. I just sell what I can to survive.”</p>
+
+<p>Lydia smiled warmly. “Come work for me. I can teach you. You don’t need experience, just dedication. And I can see you have plenty of that.”</p>
+
+<p>It felt almost too good to be true, but Rose accepted. For the first time in months, she felt hope. Maybe, just maybe, this broken path was leading her to something new.</p>
+
+<p>Cain and Isabella noticed the change in their mother. She began coming home not only tired but also excited, her eyes shining as she showed them the designs she had learned that day. The house, though still scarred by Brian’s absence, began to feel alive again.</p>
+
+<p>One evening, as Rose sat at her sewing machine, Isabella leaned against the doorframe and said softly, “Mom… I’m proud of you.”</p>
+
+<p>Rose looked up, tears filling her eyes, and smiled. “I’m doing this for you and your brother. For us.”</p>
+
+<p>Cain, sitting at the dining table with his textbooks, added, “We’re stronger without him. We’ll make it. I know we will.”</p>
+
+<p>And for the first time in a long time, Rose believed it.</p>
+
+<p>Brian, however, sank deeper into his choices. He continued his affair with Tiffany, convincing himself that this was his new life. But whenever he closed his eyes, he saw Rose, Cain, and Isabella—the family he had lost, not because of fate, but because of his own decisions.</p>
+
+<p>Trust, once broken, could not be pieced back together. And though Brian told himself he had moved on, a quiet voice inside whispered the truth: he was now a man without a home.</p>
+
+
+ 
+                
+
+                
+ 
+
+            </div>
+            
+            <div class="chapter-nav">
+                <a href="Chapter2.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous Chapter
+                </a>
+                <a href="Chapter4.html" class="btn btn-primary">
+                    Next Chapter <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Continue Reading - Ad Space
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for romance and haunting love stories and many more stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/kreeptonic"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://tiktok.com/@kreeptonicthepoetic"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@kreeptonic"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="../ChooseStory/LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent-1);"></i> for story lovers</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>

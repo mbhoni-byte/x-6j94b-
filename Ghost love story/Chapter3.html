@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Whispers in the Walls    | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        /* Same CSS as Storynightfall.html */
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Story Content */
+        .story-content {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--accent-2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(209, 107, 165, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-space::before {
+            content: "ADVERTISEMENT";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--accent-2);
+            opacity: 0.6;
+        }
+
+        .ad-content {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 6px;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ChooseStory/LyricVideoView.html">Video Book</a></li>
+                    <li><a href="../ChooseStory/library.html">Library</a></li>
+
+                </ul>
+            </nav>
+        </header>
+                <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <h1 class="page-title">Chapter 3: Whispers in the Walls     </h1>
+            <p class="page-description">Ghost Love Story</p>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Premium Dark Romance - Ad Space
+                </div>
+            </div>
+            
+            <div class="story-content">
+                
+                <p>The house breathed. </p>
+
+                <p>At least, that’s how it felt. Every hallway exhaled cold drafts. Every creak of the floorboards 
+sounded like ribs groaning under the weight of centuries. And every portrait’s painted eyes 
+seemed just a little too alive, glaring at them as they stumbled forward. </p>
+
+                <p>“Okay,” Marcus muttered, his flashlight darting nervously. “We’ve officially gone through 
+jump scares, ghost karaoke, and evil roses. What’s next? A skeleton popping out with a 
+banjo?” </p>
+                
+                <p>“Don’t joke,” Clara whispered, clinging to Ethan’s arm. “It feels like the house is listening.” </p>
+                
+                <p>“Good,” Marcus said louder, looking at the ceiling. “Then listen up, haunted house! I am 
+not dying a virgin!” </p>
+                
+                <p>Ethan groaned. “Bro…” </p>
+
+                <p>“Hey, if I’m going out, I want the universe to know my biggest regret.” </p>
+
+                <p>Clara smirked despite herself. “Your biggest regret is not dating?” </p>
+
+                <p>Marcus pointed at Ethan. “No, my biggest regret is third-wheeling with you two. If I survive, 
+I’m finding myself a demon girlfriend. At least she’d commit.” </p>
+
+                <p>“Shh!” Ethan hissed. </p>
+                
+                <p>Because the whispers had begun again. </p>
+                
+                <p>From the walls this time. Soft, hissing voices, slithering like snakes between the cracks. </p>
+                
+                <p><em>Die for him.</em></p>
+
+                <p><em>Die for her. </em></p>
+
+                <p><em>Love demands a price. </em></p>
+
+                <p>Clara pressed her hands over her ears. “Make it stop!” </p>
+
+                <p>Ethan pulled her close, glaring into the darkness. “Show yourself!” </p>
+                
+                <p>The whispers rose into shrieks, then fell silent. </p>
+                
+                <p>And from the ceiling, dust rained down as an attic door creaked open. </p>
+                
+                <p>Marcus tilted his flashlight upward. “Nope. Absolutely not. We are not going up there.” </p>
+
+                <p>But the attic ladder slid down on its own, slamming into the floor with a loud crack. </p>
+
+                <p>“Of course,” Marcus muttered. “Because horror movies aren’t cliches—they’re instruction 
+manuals.” </p>
+
+                <p>Ethan helped Clara toward the ladder. “We don’t have a choice. She wants us up there.” </p>
+
+                <p>Clara stared at him like he’d lost his mind. “And your response is, ‘Sure, let’s obey the 
+terrifying ghost bride’?”</p>
+                
+                <p>He gave her a sheepish grin. “Well… yeah?” </p>
+                
+                <p>Marcus slapped his forehead. “You’re like a golden retriever that runs toward the vacuum 
+cleaner.” </p>
+                
+                <p>Still, Ethan climbed first, pulling himself into the darkness above. Clara followed, 
+muttering under her breath, “If I die, I’m haunting you.” </p>
+
+                <p>Marcus, last, grumbled the whole way. “If I die, I’m haunting both of you together. Forever. 
+While you’re making out. Just moaning in the corner like, ‘OooOooo, Marcus is third
+wheeling even in the afterlife.’” </p>
+
+                <p>The attic was worse than the rest of the house. </p>
+
+                <p>Cobwebs hung like curtains, thick and sticky. The floor sagged under their weight. And at 
+the far end stood a small table, upon which rested a cracked music box. </p>
+
+                <p>The lid creaked open by itself. </p>
+                
+                <p>A lullaby spilled out—slow, broken, warped. </p>
+                
+                <p>Clara gasped. “That’s the same tune from the ballroom.” </p>
+                
+                <p>Ethan nodded. “It’s hers. Annalise’s.” </p>
+
+                <p>The box stopped. </p>
+
+                <p>And written in dust on the attic floor: </p>
+
+                <p><b><em>ONLY ONE LEAVES. </em></b></p>
+
+                <p>Marcus froze. “Ohhh no. Nope. No, no, no. That’s not fair. We’re not doing Squid Game: 
+Ghost Edition.” </p>
+                
+                <p>The attic shadows deepened. And out of the darkness stepped Annalise. </p>
+                
+                <p>Her form was sharper now, less translucent. Her gown trailed across the boards like mist. 
+Her hollow eyes glowed, pinning each of them in place. </p>
+                
+                <p>“You cannot escape your fate,” she whispered. “Love requires sacrifice. Decide now. 
+Which soul will remain?” </p>
+
+                <p>Clara’s voice shook. “That’s not love. That’s cruelty.” </p>
+
+                <p>Annalise tilted her head. “Cruelty? Or truth? My love betrayed me. He swore he would die 
+for me—yet he lived while I perished. And so I wait, until another proves love eternal.” </p>
+
+                <p>Her gaze locked on Ethan. </p>
+
+                <p>“You swore, too.” </p>
+                
+                <p>The floor cracked beneath his feet, glowing faintly red. Ethan stumbled back, the boards 
+crumbling under him like paper. </p>
+                
+                <p>“Ethan!” Clara screamed, grabbing his arm. </p>
+                
+                <p>The ghost’s voice hissed through the attic: “Would you let him go? Would you fall for him?” </p>
+
+                <p>Clara held tighter, her nails digging into his skin. “I won’t let you take him!” </p>
+
+                <p>Ethan shouted, “Clara, let go before you fall in too!” </p>
+
+                <p>Marcus stood frozen, torn between panic and sarcasm. His flashlight flickered. “Okay, 
+pause—can’t we vote somebody else? Like me? I’m single, nobody cares if I die!” </p>
+
+                <p>The floor gave another violent crack. Clara’s weight slipped. Ethan tried to push her back to 
+safety, but the boards splintered further. </p>
+                
+                <p>For a terrifying second, it looked like they’d both fall into the endless darkness below. </p>
+                
+                <p>Then—silence. </p>
+                
+                <p>The red glow vanished. The floor sealed as if it had never broken. </p>
+
+                <p>Clara and Ethan collapsed onto solid wood, gasping. </p>
+
+                <p>Annalise stood perfectly still, watching them. Her lips curled into the faintest smile. </p>
+
+                <p>“You chose,” she whispered. “You held on. You would risk it all.” </p>
+
+                <p>Clara glared at her, shaking with fury. “Of course I would! That’s what love is—you don’t 
+just let go! You fight!” </p>
+                
+                <p>For the first time, Annalise’s eyes softened. A flicker of humanity crossed her face. </p>
+                
+                <p>Then she faded into mist, her voice echoing: </p>
+                
+                <p>“Perhaps… there is hope yet.”</p>
+
+                <p>The attic fell silent again. </p>
+
+                <p>Only the music box remained, playing its broken tune. </p>
+
+                <p>The three sat in stunned quiet. </p>
+
+                <p>Finally, Marcus broke it. “Sooo… just checking… am I the only one thinking this ghost chick 
+is a drama queen testing your relationship like it’s an episode of <em>The Bachelor?</em>” </p>
+                
+                <p>Clara groaned, burying her face in her hands. “Marcus—” </p>
+                
+                <p>“No, I’m serious!” he said. “She’s like: ‘Will you accept this rose… or eternal damnation?’” </p>
+                
+                <p>Despite everything, Ethan snorted with laughter. Clara punched him in the arm, but she 
+was laughing too, tears streaking down her cheeks. </p>
+
+                <p>Marcus grinned. “See? That’s why you keep me around. Comic relief. Otherwise this story 
+would be ninety percent crying and ghost angst.” </p>
+
+                <p>But as they made their way back down the attic ladder, Clara couldn’t stop trembling. 
+Because no matter how much Marcus joked, she knew Annalise wasn’t finished with them. </p>
+
+                <p>This was only the beginning. </p>
+
+                <p>And the next test… might demand more than just words. </p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+
+ 
+                
+
+                
+ 
+
+            </div>
+            
+            <div class="chapter-nav">
+                <a href="Chapter2.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous Chapter
+                </a>
+                <a href="Chapter4.html" class="btn btn-primary">
+                    Next Chapter <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Continue Reading - Ad Space
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for romance and haunting love stories and many more stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/kreeptonic"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://tiktok.com/@kreeptonicthepoetic"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@kreeptonic"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="../ChooseStory/LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent-1);"></i> for story lovers</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>

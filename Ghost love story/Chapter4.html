@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: The Hall of Shadows    | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        /* Same CSS as Storynightfall.html */
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Story Content */
+        .story-content {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--accent-2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(209, 107, 165, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-space::before {
+            content: "ADVERTISEMENT";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--accent-2);
+            opacity: 0.6;
+        }
+
+        .ad-content {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 6px;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ChooseStory/LyricVideoView.html">Video Book</a></li>
+                    <li><a href="../ChooseStory/library.html">Library</a></li>
+
+                </ul>
+            </nav>
+        </header>
+                <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <h1 class="page-title">Chapter 4: The Hall of Shadows    </h1>
+            <p class="page-description">Ghost Love Story</p>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Premium Dark Romance - Ad Space
+                </div>
+            </div>
+            
+            <div class="story-content">
+                
+                <p>The mansion was changing. </p>
+                
+                <p>Clara could feel it. Every hallway seemed longer, every door heavier, every flicker of light 
+just a shade dimmer than before. It was as if the house itself fed on their fear—and the 
+more they tried to resist, the hungrier it became. </p>
+                
+                <p>“Okay,” Marcus whispered as they crept down a corridor lined with cracked mirrors. 
+“Honest question: what’s our exit plan? Because right now, the only plan I’ve got is <em>cry and 
+hope Netflix buys the movie rights to my death.</em> ” </p>
+
+                <p>“Shut up,” Ethan muttered, though his grip on Clara’s hand was just as shaky. </p>
+
+                <p>Clara tried to breathe steadily, but every mirror they passed reflected things that weren’t 
+there. In one, Ethan stood beside her… but his reflection had hollow eyes. In another, 
+Marcus grinned… with blood dripping from his mouth. </p>
+
+                <p>And in Clara’s own reflection—she wasn’t Clara at all. She was Annalise. </p>
+
+                <p>Her breath caught. She pulled Ethan closer. “She’s trying to mess with us. That’s all this 
+is.” </p>
+                
+                <p>“Yeah?” Marcus muttered. “Then why do I look like I’m auditioning for <em>The Walking Dead</em>?” </p>
+                
+                <p>Ethan stopped suddenly, pointing down the hall. </p>
+                
+                <p>A door had appeared. Not an ordinary door—it was glowing faintly, carved with roses and 
+thorns. </p>
+
+                <p>Clara’s stomach sank. “She wants us to go in.” </p>
+
+                <p>Marcus groaned. “And let me guess—we’re gonna go in because horror logic says ignoring 
+a haunted glowing door is <em>illegal</em>.” </p>
+
+                <p>But Ethan pushed it open anyway. </p>
+
+                <p>The three stepped inside—and froze. </p>
+                
+                <p>The room stretched like a cathedral, lined with statues of faceless brides in wedding 
+gowns. Their stone arms reached outward as if begging for someone to hold them. In the 
+center of the room stood Annalise herself, her veil trailing across the floor. </p>
+                
+                <p>“Welcome,” she whispered. “To the Hall of Shadows.” </p>
+                
+                <p>Clara’s knees weakened. Ethan tightened his grip on her hand. </p>
+
+                <p>Annalise’s voice echoed. “Love has guided you here. Now comes the truth. One of you 
+must face the dark. One of you must endure the test.” </p>
+
+                <p>“Define ‘test,’” Marcus said quickly. “Like… multiple choice? Oral exam? I’m really good at 
+bullsh—” </p>
+
+                <p>The statues’ heads snapped toward him all at once. Their faceless stone mouths opened in 
+silent screams. </p>
+
+                <p>Marcus yelped and threw his hands up. “Okay! Okay! I’ll shut up!” </p>
+                
+                <p>Annalise’s gaze returned to Clara. “You.” </p>
+                
+                <p>Clara pointed at herself, panicked. “Me? Why me? He’s the one who swore he’d die for 
+me!” </p>
+                
+                <p>“Yes,” Annalise whispered. “But will you die… for him?” </p>
+
+                <p>The floor cracked open. A pit of swirling darkness yawned in the center of the room. 
+Screams echoed from within—voices of the damned. </p>
+
+                <p>Clara’s heart hammered. “You can’t be serious—” </p>
+
+                <p>“Choose.” Annalise’s voice boomed. “Step forward and take his place. Or watch him fall.”</p>
+
+                <p>The floor beneath Ethan crumbled into jagged edges, glowing red. He staggered back, his 
+sneakers barely gripping what remained. </p>
+                
+                <p>“Clara, don’t you dare,” Ethan barked. “Don’t you even think about it!” </p>
+                
+                <p>Clara’s hands shook. “Ethan—” </p>
+                
+                <p>“I’m not letting you die for me!” </p>
+
+                <p>Marcus stepped in, panicking. “Okay, time out! Can we just—vote someone else in? I 
+volunteer as tribute! Nobody even likes me that much! It won’t be a big loss!” </p>
+
+                <p>The statues groaned, their stone arms stretching toward Marcus. </p>
+
+                <p>He paled. “Okay, okay, forget I said that!” </p>
+
+                <p>Clara stared at Ethan, her chest heaving. Every instinct screamed at her to grab him, to 
+throw herself forward, to prove Annalise wrong. </p>
+                
+                <p>The ghost’s voice grew softer, more intimate. “This is love’s truth. To save him… you must 
+fall.” </p>
+                
+                <p>Clara closed her eyes. Her foot inched forward toward the pit. </p>
+                
+                <p>“Clara, NO!” Ethan roared, grabbing her arm. His grip was iron. His eyes blazed—not with 
+fear, but fury. </p>
+
+                <p>He pulled her back against him. “If she wants me, she’ll take me. But you are not 
+sacrificing yourself for me.” </p>
+
+                <p>Clara’s eyes filled with tears. “But you would’ve done it for me.” </p>
+
+                <p>“Exactly,” he said fiercely. “That’s the point. We’re both stubborn idiots. So neither of us is 
+going.” </p>
+
+                <p>For a moment, the room went still. </p>
+
+                <p>And then—Annalise smiled. </p>
+
+                <p>It was small, almost tragic. </p>
+                
+                <p>“You held on,” she whispered. “Even when commanded to let go.” </p>
+                
+                <p>The pit snapped shut. The statues cracked and crumbled into dust. </p>
+                
+                <p>Annalise’s veil billowed in unseen wind. She drifted closer, her voice softer now. </p>
+
+                <p>“Perhaps… you are different. Perhaps your love is not like his. Perhaps… there is hope.” </p>
+
+                <p>And with that, she vanished. </p>
+
+                <p>The room collapsed back into darkness. </p>
+
+                <p>The three stumbled into another hallway, panting. </p>
+                
+                <p>Marcus leaned against the wall, clutching his chest. “Okay. I’m filing a complaint. That was 
+way too close to a literal death drop. And not the fun RuPaul kind.” </p>
+                
+                <p>Clara laughed shakily through her tears. “Marcus…” </p>
+                
+                <p>“What? I’m coping!” He waved his arms. “You two keep crying and declaring eternal love, 
+I’m just trying to not pee myself.” </p>
+
+                <p>Ethan hugged Clara tightly, burying his face in her hair. “Don’t ever do that again. Don’t you 
+dare.” </p>
+
+                <p>She held him back, whispering, “I couldn’t lose you. I couldn’t.” </p>
+
+                <p>And though she felt safer in his arms, Clara couldn’t shake the thought. </p>
+
+                <p>Every test Annalise gave them was harsher, crueler. </p>
+                
+                <p>And if the ghost wasn’t lying… the final test might demand more than either of them could 
+give. </p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+
+
+ 
+                
+
+                
+ 
+
+            </div>
+            
+            <div class="chapter-nav">
+                <a href="Chapter3.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous Chapter
+                </a>
+                <a href="Chapter5.html" class="btn btn-primary">
+                    Next Chapter <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Continue Reading - Ad Space
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for romance and haunting love stories and many more stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/kreeptonic"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://tiktok.com/@kreeptonicthepoetic"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@kreeptonic"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="../ChooseStory/LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent-1);"></i> for story lovers</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>

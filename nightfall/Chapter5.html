@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: The Aftermath    | Kreeptonic Story Time</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        /* Same CSS as Storynightfall.html */
+        :root {
+            --dark-bg: #0c0c15;
+            --darker-bg: #07070e;
+            --accent-1: #ff2a6d;
+            --accent-2: #d16ba5;
+            --accent-3: #86a8e7;
+            --text-light: #f0f0f5;
+            --text-muted: #a0a0b0;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 109, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(209, 107, 165, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(134, 168, 231, 0.05) 0%, transparent 30%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--accent-1);
+            font-size: 20px;
+            opacity: 0;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            color: var(--accent-1);
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-1), var(--accent-3));
+            border-radius: 2px;
+        }
+
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Story Content */
+        .story-content {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-3));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--accent-2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(209, 107, 165, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-space::before {
+            content: "ADVERTISEMENT";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--accent-2);
+            opacity: 0.6;
+        }
+
+        .ad-content {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 6px;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-3);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-1);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--darker-bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .story-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts for dark love effect -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-book-dead logo-icon"></i>
+                <h1>Kreeptonic <span>Story Time</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ChooseStory/LyricVideoView.html">Video Book</a></li>
+                    <li><a href="../ChooseStory/library.html">Library</a></li>
+                </ul>
+            </nav>
+        </header>
+                <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <h1 class="page-title">Chapter 5: The Aftermath   </h1>
+            <p class="page-description">When the Heart Went Still</p>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Premium Dark Romance - Ad Space
+                </div>
+            </div>
+            
+            <div class="story-content">
+
+                
+                <p>The weeks after Felicity and Dexter’s deaths felt heavy, like a dark cloud hanging over the 
+whole school. The once–lively corridors were filled with whispers, stares, and a silence 
+that felt louder than noise. Everyone had their own version of the story, but no one really 
+knew the truth. </p>
+
+                <p>For Kevin, each day felt like walking through broken glass. The girl he had loved for three 
+years was gone, and he hadn’t even been there when she needed him most. He 
+remembered the lies she told, the distance she created, the way she pulled away in those 
+final weeks—and it cut him like a knife. </p>
+
+                <p>Sometimes, anger burned inside him. She betrayed me. She went to him instead of me. 
+Other times, grief swallowed him whole. She’s gone forever. I’ll never hold her hand again. </p>
+
+                <p>Most nights, he lay awake staring at the ceiling, his chest aching, replaying everything in his 
+head. </p>
+                <br>
+                <p><em><b>The School Assembly </b></em></p>
+                <br>
+                
+                <p>Two weeks after the funeral, the principal called the students into the hall. Rows of 
+teenagers sat quietly as the teachers stood at the front. </p>
+                
+                <p>“We are here,” the principal began, her voice firm but sad, “to acknowledge the loss of two 
+students—Felicity Smith and Dexter Adams. Both were taken from us too soon.” </p>
+                
+                <p>Murmurs rippled through the crowd. </p>
+                
+                <p>The principal continued, “Let their deaths remind us of the dangers of secrets, the 
+importance of honesty, and the value of seeking help when we struggle.”</p>
+
+                <p>Kevin sat rigid, his hands clenched. He hated hearing Dexter’s name alongside Felicity’s. 
+He doesn’t deserve to be remembered with her, Kevin thought bitterly. He took her away 
+from me. </p>
+
+                <p>But deep down, a part of him knew it wasn’t so simple. </p>
+                <br>
+                
+                <p><em><b>Tyla’s Struggle </b></em></p>
+                <br>
+                
+                <p>Tyla tried to return to normal, but nothing felt right. Every time she walked past Felicity’s 
+empty desk, tears threatened to fall. She blamed herself for agreeing to cover for her 
+friend. </p>
+                
+                <p>“If I had told the truth,” she whispered to herself one night, staring at the ceiling in her 
+room, “maybe she’d still be here. Maybe she wouldn’t have gone to him.”</p>
+                
+                <p>Her mother reminded her, “You can’t control other people’s choices, Tyla. Felicity made 
+her own decisions.” </p>
+
+                <p>But the guilt was like a shadow, following her everywhere. </p>
+
+                <p>To make it worse, she missed Dexter too. He had been kind to her sometimes, even if he 
+hadn’t noticed her feelings. Now he was gone too, and she hated herself for wishing it had 
+been different. </p>
+                <br>
+                <p><em><b>Kevin and Tyla </b></em></p>
+                <br>
+                
+                <p>One afternoon after school, Kevin found Tyla sitting alone under the big tree near the sports 
+field. She was staring at the ground, her face pale. </p>
+                
+                <p>Without thinking, he sat beside her. For a moment, they said nothing. The silence between 
+them was heavy, filled with memories of Felicity. </p>
+                
+                <p>Finally, Tyla whispered, “I keep thinking it’s my fault.” </p>
+
+                <p>Kevin shook his head slowly. “It’s not your fault. It’s his. Dexter. He—” His voice cracked. 
+“He took her away from me.” </p>
+
+                <p>Tyla looked at him with tears in her eyes. “I miss her so much.” </p>
+
+                <p>Kevin swallowed hard. “Me too.” </p>
+
+                <p>For the first time since the funeral, they cried together, side by side. Neither had the 
+strength to comfort the other, but sharing the pain made it just a little lighter. </p>
+                <br>
+                <p><em><b>The Journal </b></em></p>
+                <br>
+
+                <p>A month later, Mrs. Smith called Kevin to her house. She looked exhausted, her eyes red 
+from crying. </p>
+                
+                <p>“Kevin,” she said softly, handing him a small notebook. “We found this in Felicity’s room. 
+It’s her journal. I think you should have it.” </p>
+                
+                <p>Kevin’s hands shook as he took it. That night, he sat on his bed, staring at the cover for a 
+long time before opening it. </p>
+                
+                <p>Inside were pages filled with Felicity’s handwriting—her dreams, her fears, and her 
+thoughts. </p>
+                
+                <p>He read about how much she loved him, how grateful she was for their years together, and 
+how she wanted a future with him. But then, the later entries shifted. </p>
+
+                <p>Dexter makes me feel understood. I don’t know why I can’t stop talking to him. I love Kevin, 
+but with Dexter… it’s different. I feel alive and trapped at the same time. </p>
+
+                <p>Kevin’s chest tightened. The words were like knives, but he forced himself to keep reading. </p>
+                
+                <p><em>Her last entry made him break down completely: </em></p>
+                
+                <p>I don’t know what I’m doing. I feel like I’m losing myself. I wish I could tell Kevin the truth, 
+but I’m scared he’ll hate me. I just want everything to go back to how it was before. </p>
+                
+                <p>Tears streamed down his face. She hadn’t meant for it to end this way. She had been 
+confused, torn between two worlds, and too afraid to be honest. </p>
+                
+                <p>Kevin pressed the journal to his chest and whispered, “I don’t hate you, Felicity. I just wish 
+you had trusted me.” </p>
+                <br>
+                <p><em><b>Moving Forward </b></em></p>
+                <br>
+
+                <p>Time passed slowly, but it did pass. The pain didn’t disappear, but Kevin learned to live 
+with it. He poured his energy into his studies and sports, trying to keep busy. </p>
+                
+                <p>Tyla became his closest friend, though neither of them ever mentioned Dexter’s name 
+again. Together, they kept Felicity’s memory alive—sharing stories about her smile, her 
+kindness, and the way she lit up every room.</p>
+                
+                <p>Sometimes, Kevin still visited her grave. He would sit in silence, talking to her in his mind, 
+telling her about his day, his fears, his dreams. </p>
+                
+                <p>“Life goes on,” he whispered one evening, the wind brushing gently against his face. “But 
+I’ll never forget you.” </p>
+                <br>
+                <p><em><b>Epilogue </b></em></p>
+                <br>
+
+                <p>Years later, Kevin and Tyla both graduated. They carried the scars of that tragic year, but 
+they also carried lessons that shaped the rest of their lives. </p>
+
+                <p>They learned that love without honesty can destroy. That secrets always find their way to 
+the surface. And that sometimes, one choice—one lie—can change everything. </p>
+
+                <p>For the rest of their lives, they never forgot Felicity and Dexter. Their story became a 
+reminder, not just of loss, but of the importance of truth, trust, and the fragile nature of life.</p>
+        <br>
+        <br>
+                <h1><em><b><center>...THE END...</center></b></em></h1>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+                
+                <p></p>
+
+                <p></p>
+
+
+ 
+                
+
+                
+ 
+
+            </div>
+            
+            <div class="chapter-nav">
+                <a href="Chapter4.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous Chapter
+                </a>
+                <a href="../ChooseStory/library.html" class="btn btn-primary">
+                    Read another story <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="ad-space">
+                <div class="ad-content">
+                    <i class="fas fa-ad"></i> Continue Reading - Ad Space
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Kreeptonic Story Time</h4>
+                    <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+                        Your sanctuary for romance and haunting love stories and many more stories that linger in the shadows of the heart.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/kreeptonic"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://tiktok.com/@kreeptonicthepoetic"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@kreeptonic"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="../ChooseStory/LyricVideoView.html"><i class="fas fa-book-open"></i> Video Book</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kreeptonic Story Time. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent-1);"></i> for story lovers</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                
+                // Random position and animation delay
+                const leftPos = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const size = 10 + Math.random() * 20;
+                
+                heart.style.left = `${leftPos}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.opacity = 0.2 + Math.random() * 0.5;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBtn.innerHTML = navMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createHearts();
+        });
+    </script>
+</body>
+</html>
