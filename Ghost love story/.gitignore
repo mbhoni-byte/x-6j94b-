@@ -1,0 +1,8 @@
+# Ignore specific files
+
+*.html
+*.htm
+
+# Ignore entire folders
+
+
