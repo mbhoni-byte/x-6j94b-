@@ -1,15 +1,8 @@
 # Ignore specific files
 
-index.html
-Upload your story here.html
-contact.html
-logo.png
-
+*.html
+*.htm
 
 # Ignore entire folders
 
-ChooseStory
-Ghost love story
-The Betrayal
-nightfall
-poem
+
