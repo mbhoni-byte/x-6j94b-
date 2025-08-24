@@ -26,3 +26,18 @@ document.addEventListener('keydown', e => {
 
 // Optional: disable text selection programmatically as a fallback
 document.addEventListener('selectstart', e => e.preventDefault());
+
+const config = [{
+  initDataTypes: ['cenc'],
+  audioCapabilities: [{ contentType: 'audio/mp4; codecs="mp4a.40.2"', robustness: 'SW_SECURE_DECODE' }],
+  videoCapabilities: [{ contentType: 'video/mp4; codecs="avc1.64001E"', robustness: 'HW_SECURE_ALL' }]
+}];
+
+const access = await navigator.requestMediaKeySystemAccess('com.widevine.alpha', config);
+const mediaKeys = await access.createMediaKeys();
+await videoEl.setMediaKeys(mediaKeys);
+// Then attach your license server flow, etc.
+
+
+
+
