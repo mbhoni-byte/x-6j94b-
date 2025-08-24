@@ -1,7 +1,14 @@
 # Ignore specific files
 
-*.html
-*.htm
+index.html
+Upload your story here.html
+contact.html
+
+
+
+
+
+
 
 # Ignore entire folders
 
