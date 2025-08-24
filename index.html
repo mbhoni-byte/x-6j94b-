@@ -789,9 +789,61 @@
     // Optional: disable text selection programmatically as a fallback
     document.addEventListener('selectstart', e => e.preventDefault());
   </script>
+    <script>
+/* 1) Generic “no-copy” frictions */
+document.addEventListener('contextmenu', e => e.preventDefault());
+['copy','cut','paste','dragstart'].forEach(evt =>
+  document.addEventListener(evt, e => e.preventDefault())
+);
+document.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase(), mod = e.ctrlKey || e.metaKey;
+  if (mod && ['c','x','s','p','u','a'].includes(k)) { e.preventDefault(); e.stopPropagation(); }
+  if (k === 'printscreen') e.preventDefault(); // not reliable, but cheap to try
+});
+document.addEventListener('selectstart', e => e.preventDefault());
+
+/* 2) Blur/cover when the tab isn't active (reduces easy captures) */
+const shield = document.getElementById('shield');
+document.addEventListener('visibilitychange', () => {
+  shield.style.opacity = (document.hidden ? '1' : '0');
+});
+
+/* 3) Detect common devtools cues and window-resize anomalies to raise shield */
+(function devtoolsWatch(){
+  let open = false;
+  const check = () => {
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+      if (!open) { open = true; shield.style.opacity = '1'; }
+    } else if (open) { open = false; shield.style.opacity = '0'; }
+  };
+  ['resize','focus','blur'].forEach(ev => window.addEventListener(ev, check));
+  setInterval(check, 1000);
+})();
+
+/* 4) Tiled dynamic watermark (discourages sharing) */
+(function watermark(){
+  const el = document.getElementById('watermark');
+  // Customize this string with your user/session info on render:
+  const tag = `User: guest\nTime: ${new Date().toLocaleString()}\n© YourSite`;
+  const canvas = document.createElement('canvas');
+  canvas.width = 320; canvas.height = 220;
+  const ctx = canvas.getContext('2d');
+  ctx.translate(160,110);
+  ctx.rotate(-Math.PI / 8);
+  ctx.textAlign = 'center';
+  ctx.globalAlpha = 0.22;
+  ctx.font = '700 16px system-ui, sans-serif';
+  const lines = tag.split('\n');
+  lines.forEach((line,i)=> ctx.fillText(line,0,i*22));
+  el.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+})();
+</script>
+
 </body>
 
 </html>
+
 
 
 
